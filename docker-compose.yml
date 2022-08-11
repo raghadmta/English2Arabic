@@ -49,11 +49,5 @@ services:
 networks:
   Public-comunicate:
       driver: bridge
-      ipam:
-        config:
-          - subnet: 182.1.0.0/16
   Privet-comunicate:
       driver: bridge
-      ipam:
-        config:
-          - subnet: 182.2.0.0/16
