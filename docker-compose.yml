@@ -1,0 +1,38 @@
+version: "3.7"
+
+services:
+  api:
+    build: ./api
+    environment:
+      - CONNECTION_STRING=postgres://demo_user:demo_user@db/demo_db
+    depends_on:
+      - db
+    networks:
+      -  Privet-comunicate
+      -  Public-comunicate
+
+  webapp:
+    build: ./web
+    environment:
+      - API_URL=http://api:3001/data
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+    networks:
+      -  Public-comunicate
+
+  db:
+    image: postgres:11.2-alpine
+    environment:
+      POSTGRES_USER: demo_user
+      POSTGRES_PASSWORD: demo_user
+      POSTGRES_DB: demo_db
+    volumes:
+      - ./sql_scripts/:/docker-entrypoint-initdb.d
+    networks:
+      - Public-comunicate
+
+networks:
+   Privet-comunicate:
+   Public-comunicate:
