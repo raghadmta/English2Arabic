@@ -32,8 +32,8 @@ services:
 
   postgresdb:
     image: postgres:11.2-alpine
-    # ports: ["5432"]
-    # container_name: postgres-db
+    ports: ["5432"]
+    container_name: postgresdb
     environment:
       POSTGRES_USER: "raghad"
       POSTGRES_PASSWORD: "1234"
