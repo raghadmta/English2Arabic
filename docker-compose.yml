@@ -7,6 +7,9 @@ services:
     container_name: api
     environment:
       - CONNECTION_STRING=postgres://postgres:postgres@db/postgres_db
+    command: node index.js
+    volumes:
+       - ./api:/api
     depends_on:
       - postgresdb
     networks:
@@ -39,7 +42,7 @@ services:
       POSTGRES_PASSWORD: "1234"
       POSTGRES_DB: "RGpostgres_db"
     volumes:
-      - ./sql_scripts/:/docker-entrypoint-initdb.d
+      - "/home/ubuntu/English2Arabic/sql_scripts/:/docker-entrypoint-initdb.d "
     networks:
       - Privet-comunicate
     
