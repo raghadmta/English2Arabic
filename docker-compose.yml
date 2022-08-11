@@ -47,7 +47,7 @@ services:
     volumes:
       - "/home/ubuntu/English2Arabic/sql_scripts/:/docker-entrypoint-initdb.d"
     networks:
-      - private
+      -  Privet-comunicate
     
 networks:
   Public-comunicate:
