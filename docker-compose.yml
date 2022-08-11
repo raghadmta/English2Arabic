@@ -2,39 +2,55 @@ version: "3.7"
 
 services:
   api:
-    build: ./api
+    build: 
+      context: ./api
+    container_name: api
     environment:
-      - CONNECTION_STRING=postgres://demo_user:demo_user@db/demo_db
+      - CONNECTION_STRING=postgres://postgres:postgres@db/postgres_db
     depends_on:
-      - db
-    ports:
-      - "3001:3001"
+      - postgres-db
     networks:
-      -  Privet-comunicate
-      -  Public-comunicate
+      - Public-comunicate
+      - Privet-comunicate
 
-  webapp:
-    build: ./web
+  web:
+    build: 
+      context: ./web
+    container_name: web
     environment:
       - API_URL=http://api:3001/data
-    depends_on:
-      - api
+    command: node index.js
+    volumes:
+      - ./web:/web
     ports:
       - "80:3000"
+    depends_on:
+      - api
     networks:
-      -  Public-comunicate
+      - Public-comunicate
+ 
 
-  db:
+  postgres-db:
     image: postgres:11.2-alpine
+    # ports: ["5432"]
+    # container_name: postgres-db
     environment:
-      POSTGRES_USER: demo_user
-      POSTGRES_PASSWORD: demo_user
-      POSTGRES_DB: demo_db
+      POSTGRES_USER: "raghad"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: "RGpostgres_db"
     volumes:
       - ./sql_scripts/:/docker-entrypoint-initdb.d
     networks:
-      - Public-comunicate
-
+      - Privet-comunicate
+    
 networks:
-   Privet-comunicate:
-   Public-comunicate:
+  Public-comunicate:
+      driver: bridge
+      ipam:
+        config:
+          - subnet: 182.1.0.0/16
+  Privet-comunicate:
+      driver: bridge
+      ipam:
+        config:
+          - subnet: 182.2.0.0/16
