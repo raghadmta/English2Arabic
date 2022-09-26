@@ -4,6 +4,9 @@ simple application that uses a postgres DB to create an English to Arabic simple
  
 
 
+---
+###### This project was part of Saudi Digital Acadmy's ( SDA ) DevOps BootCamp 2022
+
 
 
 
